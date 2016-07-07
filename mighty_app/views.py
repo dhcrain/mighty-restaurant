@@ -5,6 +5,7 @@ from mighty_app.models import Profile, MenuItem, Order
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from mighty_app.forms import OrderForm
 
 
 # Create your views here.
@@ -26,3 +27,18 @@ class RegisterView(CreateView):
 
 class OrderCreateView(CreateView):
     model = Order
+    form_class = OrderForm
+    # fields = ['customer_name', 'items', 'note']
+
+    def form_valid(self, form):
+        order = form.save(commit=False)
+        order.user = self.request.user
+
+        return super().form_valid(form)
+
+    # customer_name = models.CharField(max_length=20)
+    # items = models.ManyToManyField(MenuItem)
+    # note = models.TextField()
+    # total = models.DecimalField(max_digits=4, decimal_places=2)
+    # complete = models.BooleanField(default=False)
+    # paid

@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index_view'),
     url(r'^register/$', RegisterView.as_view(), name='register_view'),
     url(r'^accounts/profile/$', ProfileListView.as_view(), name='profile_list_view'),
-    # url(r'^add_order/$', OrderCreateView.as_view(), name='order_create_view'),
+    url(r'^add_order/$', OrderCreateView.as_view(), name='order_create_view'),
 
 ]

@@ -13,18 +13,24 @@
     <div class="top-bar">
         <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
-                <li class="menu-text">Site Title</li>
+                <li class="menu-text">mighty_app</li>
                 <li><a href="{% url 'index_view' %}">Home</a></li>
+                {% if user.is_authenticated %}
+
+                {% else %}
+                    <li><a href="{% url 'register_view' %}">Create Account</a></li>
+
+                {% endif %}
             </ul>
         </div>
         <div class="top-bar-right">
             <ul class="menu">
                 {% if user.is_authenticated %}
-                <li class="menu-text">Welcome {{ user }}</li>
-                <li><a href="{% url 'profile_list_view' %}">Profile</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li class="menu-text">Welcome {{ user }}</li>
+                    <li><a href="{% url 'profile_list_view' %}">Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
 
                 {% endif %}
             </ul>

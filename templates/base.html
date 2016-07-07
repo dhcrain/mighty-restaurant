@@ -1,0 +1,54 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Title{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "mighty_app/css/foundation.min.css" %}" />
+  </head>
+  <body>
+    {# nav bar #}
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li class="menu-text">Site Title</li>
+                <li><a href="{% url 'index_view' %}">Home</a></li>
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                {% if user.is_authenticated %}
+                <li class="menu-text">Welcome {{ user }}</li>
+                <li><a href="{% url 'profile_list_view' %}">Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {# hero #}
+      {% block hero %}
+          <p>hero</p>
+      {% endblock %}
+    {# main content #}
+      <div class="container">
+          <div class="row">
+          {% block body %}
+            <h1>Hello, world!</h1>
+            <p>body</p>
+          {% endblock %}
+          </div>
+      </div>
+    <script src="{% static "mighty_app/js/vendor/jquery.js" %}"></script>
+    <script src="{% static "mighty_app/js/vendor/what-input.js" %}"></script>
+    <script src="{% static "mighty_app/js/vendor/foundation.min.js" %}"></script>
+    <script>
+      $(document).foundation();
+    </script>
+
+  </body>
+</html>

@@ -21,9 +21,10 @@ class Profile(models.Model):
         return self.job is self.OWNER
 
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 class MenuItem(models.Model):
+    created_by = models.ForeignKey('auth.User')
     title = models.CharField(max_length=25)
     description = models.TextField()
     price = models.DecimalField(max_digits=4, decimal_places=2)

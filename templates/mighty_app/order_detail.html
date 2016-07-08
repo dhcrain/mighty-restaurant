@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Order Detail</h1>
+    <ul>
+        <li>Order Date: {{ order.created }}</li>
+        <li>Items: {{ object.items }}</li>
+        <li>Order Total: ${{ object.order_total }}</li>
+    </ul>
+    <form class="" action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
+    </form>
+
+{% endblock %}

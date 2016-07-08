@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView
 from django.contrib.auth.models import User
 from mighty_app.models import Profile, MenuItem, Order
 from django.core.urlresolvers import reverse_lazy
@@ -28,17 +28,22 @@ class RegisterView(CreateView):
 class OrderCreateView(CreateView):
     model = Order
     form_class = OrderForm
-    # fields = ['customer_name', 'items', 'note']
+    success_url = reverse_lazy("order_detail_view")
 
     def form_valid(self, form):
         order = form.save(commit=False)
         order.user = self.request.user
-
         return super().form_valid(form)
 
-    # customer_name = models.CharField(max_length=20)
-    # items = models.ManyToManyField(MenuItem)
-    # note = models.TextField()
-    # total = models.DecimalField(max_digits=4, decimal_places=2)
-    # complete = models.BooleanField(default=False)
-    # paid
+class OrderDetailView(UpdateView):
+    model = Order
+    # fields = ['customer_name', 'items', 'note', 'complete', 'paid']
+    template_name = 'mighty_app/order_detail.html'
+    form_class = OrderForm
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        context['object'] = Order.objects.get(id=pk)
+        return context

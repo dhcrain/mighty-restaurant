@@ -32,12 +32,15 @@ class OrderCreateView(CreateView):
 
     def form_valid(self, form):
         order = form.save(commit=False)
-        order.user = self.request.user
+        order.server = self.request.user
         return super().form_valid(form)
+
+class OrderListView(ListView):
+    model = Order
 
 class OrderDetailView(UpdateView):
     model = Order
-    # fields = ['customer_name', 'items', 'note', 'complete', 'paid']
+    # fields = ['customer_name', 'items', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_detail.html'
     form_class = OrderForm
 

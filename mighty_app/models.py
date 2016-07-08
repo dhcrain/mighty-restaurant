@@ -32,15 +32,13 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.title
 
-# class OrderLine(models.Model):
-#     quantity = models.PositiveIntegerField()
-#     order_menu_item = models.ForeignKey(MenuItem)
+
 
 class Order(models.Model):
     server = models.ForeignKey('auth.User')
     customer_name = models.CharField(max_length=20)
-    items = models.ManyToManyField(MenuItem)
-    # order_items = models.ManyToManyField(OrderLine)
+    # items = models.ManyToManyField(MenuItem)
+    order_items = models.ManyToManyField(MenuItem, through='OrderLine')
     note = models.TextField(blank=True)
     is_complete = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
@@ -48,13 +46,23 @@ class Order(models.Model):
 
     # http://stackoverflow.com/questions/27975251/how-do-i-add-together-fields-from-a-manytomanyfield-in-django
     def order_total(self):
-        return self.items.aggregate(total=models.Sum('price'))['total']
+        return self.order_items.aggregate(total=models.Sum('order_menu_item'))['total']
+
+        def __str__(self):
+            return self.customer_name
+
+            class Meta:
+                ordering = ['-created']
+
+
+class OrderLine(models.Model):
+    quantity = models.PositiveIntegerField()
+    order_menu_item = models.ForeignKey(MenuItem)
+    orderline_menu = models.ForeignKey(Order)
 
     def __str__(self):
-        return self.customer_name
+        return "{}- {}".format(self.quantity, self.order_menu_item)
 
-    class Meta:
-        ordering = ['-created']
 
 
 

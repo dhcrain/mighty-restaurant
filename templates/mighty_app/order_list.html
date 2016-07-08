@@ -24,8 +24,7 @@
                     <td>{{ object.created }}</td>
                     <td>{{ object.server }}</td>
                     <td>{{ object.customer_name }}</td>
-                    {# <td>{{ object.items }}</td>#}
-                    <td>{% for items in object.items.all %}
+                    <td>{% for items in object.order_items.all %}
                         <ul>
                             <li>{{ items }}</li>
                         </ul>

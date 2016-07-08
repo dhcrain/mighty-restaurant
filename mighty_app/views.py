@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView
 from django.contrib.auth.models import User
-from mighty_app.models import Profile, MenuItem, Order
+from mighty_app.models import Profile, MenuItem, Order, OrderLine
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from mighty_app.forms import OrderForm
+from mighty_app.forms import OrderForm, OrderLineForm
 
 
 # Create your views here.
@@ -27,7 +27,8 @@ class RegisterView(CreateView):
 
 class OrderCreateView(CreateView):
     model = Order
-    form_class = OrderForm
+    fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
+    # form_class = OrderForm
     success_url = reverse_lazy("order_list_view")
 
     def form_valid(self, form):
@@ -40,9 +41,9 @@ class OrderListView(ListView):
 
 class OrderDetailView(UpdateView):
     model = Order
-    # fields = ['customer_name', 'items', 'note', 'is_complete', 'is_paid']
+    fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_detail.html'
-    form_class = OrderForm
+    # form_class = OrderForm
     success_url = reverse_lazy("order_list_view")
 
     def get_context_data(self, **kwargs):
@@ -54,7 +55,7 @@ class OrderDetailView(UpdateView):
 class MeunItemCreateView(CreateView):
     model = MenuItem
     fields = ['title', 'description', 'price']
-    # success_url = reverse_lazy("Menu_item_list_view")
+    success_url = reverse_lazy("menu_item_list_view")
 
     def form_valid(self, form):
         menu_item = form.save(commit=False)
@@ -67,3 +68,4 @@ class MenuItemListView(ListView):
 class MenuUpdateView(UpdateView):
     model = MenuItem
     fields = ['id', 'title', 'description', 'price']
+    success_url = reverse_lazy("menu_item_list_view")

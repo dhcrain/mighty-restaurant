@@ -15,6 +15,12 @@
             <ul class="dropdown menu" data-dropdown-menu>
                 <li class="menu-text">mighty_app</li>
                 <li><a href="{% url 'index_view' %}">Home</a></li>
+                <li><a href="{% url 'menuitem_create_view' %}">Create Menu Items</a></li>
+                <li><a href="{% url 'order_create_view' %}">New Order</a></li>
+
+                {% if user.is_owner %}
+
+                {% endif %}
                 {% if user.is_authenticated %}
 
                 {% else %}

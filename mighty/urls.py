@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from mighty_app.views import IndexView, ProfileListView, RegisterView, OrderCreateView, OrderDetailView
+from mighty_app.views import IndexView, ProfileListView, RegisterView, OrderCreateView, MeunItemCreateView, OrderDetailView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^accounts/profile/$', ProfileListView.as_view(), name='profile_list_view'),
     url(r'^add_order/$', OrderCreateView.as_view(), name='order_create_view'),
     url(r'^order/(?P<pk>\d+)$', OrderDetailView.as_view(), name='order_detail_view'),
+    url(r'^add_menuitem/$', MeunItemCreateView.as_view(), name='menuitem_create_view'),
 
 ]

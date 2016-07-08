@@ -41,9 +41,18 @@ class OrderDetailView(UpdateView):
     template_name = 'mighty_app/order_detail.html'
     form_class = OrderForm
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get('pk')
         context['object'] = Order.objects.get(id=pk)
         return context
+
+class MeunItemCreateView(CreateView):
+    model = MenuItem
+    fields = ['title', 'description', 'price']
+    # success_url = reverse_lazy("Menu_item_list_view")
+
+    def form_valid(self, form):
+        menu_item = form.save(commit=False)
+        menu_item.created_by = self.request.user
+        return super().form_valid(form)

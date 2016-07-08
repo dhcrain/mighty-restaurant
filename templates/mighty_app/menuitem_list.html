@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Item Number</th>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+            <tr>
+                <td>{{ item.pk }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+{% endblock %}

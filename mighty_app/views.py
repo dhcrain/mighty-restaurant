@@ -56,3 +56,6 @@ class MeunItemCreateView(CreateView):
         menu_item = form.save(commit=False)
         menu_item.created_by = self.request.user
         return super().form_valid(form)
+
+class MenuItemListView(ListView):
+    model = MenuItem

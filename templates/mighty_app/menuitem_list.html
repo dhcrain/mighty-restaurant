@@ -14,7 +14,7 @@
         <tbody>
             {% for item in object_list %}
             <tr>
-                <th><a href="{% url 'menu_item_update_view' item.pk %}">Edit</a></th>
+                <th><a class="large button" href="{% url 'menu_item_update_view' item.pk %}">Edit</a></th>
                 <td>{{ item.pk }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.description }}</td>

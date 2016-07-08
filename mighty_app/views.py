@@ -28,7 +28,7 @@ class RegisterView(CreateView):
 class OrderCreateView(CreateView):
     model = Order
     form_class = OrderForm
-    success_url = reverse_lazy("order_detail_view")
+    success_url = reverse_lazy("order_list_view")
 
     def form_valid(self, form):
         order = form.save(commit=False)
@@ -43,6 +43,7 @@ class OrderDetailView(UpdateView):
     # fields = ['customer_name', 'items', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_detail.html'
     form_class = OrderForm
+    success_url = reverse_lazy("order_list_view")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

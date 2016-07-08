@@ -40,6 +40,7 @@ class Order(models.Model):
     server = models.ForeignKey('auth.User')
     customer_name = models.CharField(max_length=20)
     items = models.ManyToManyField(MenuItem)
+    # order_items = models.ManyToManyField(OrderLine)
     note = models.TextField(blank=True)
     is_complete = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
@@ -52,6 +53,8 @@ class Order(models.Model):
     def __str__(self):
         return self.customer_name
 
+    class Meta:
+        ordering = ['-created']
 
 
 

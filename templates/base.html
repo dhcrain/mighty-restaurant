@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Title{% endblock %}</title>
     <link rel="stylesheet" href="{% static "mighty_app/css/foundation.min.css" %}" />
+    <link rel="stylesheet" href="{% static "mighty_app/css/app.css" %}" />
   </head>
   <body>
     {# nav bar #}
@@ -18,6 +19,7 @@
                 <li><a href="{% url 'menu_item_create_view' %}">Add Menu Items</a></li>
                 <li><a href="{% url 'menu_item_list_view' %}">Menu</a></li>
                 <li><a href="{% url 'order_create_view' %}">New Order</a></li>
+                <li><a href="{% url 'order_list_view' %}">Orders</a></li>
 
                 {% if user.is_owner %}
 

@@ -1,0 +1,25 @@
+
+.complete {
+    background-color: green;
+    color: white;
+    font-weight: 900;
+    text-align: center;
+}
+.not-complete {
+    background-color: red;
+    color: white;
+    font-weight: 900;
+    text-align: center;
+}
+.paid {
+    background-color: green;
+    color: white;
+    font-weight: 900;
+    text-align: center;
+}
+.not-paid {
+    background-color: red;
+    color: white;
+    font-weight: 900;
+    text-align: center;
+}

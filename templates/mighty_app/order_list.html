@@ -4,7 +4,8 @@
     <table>
         <thead>
             <tr>
-                <th>Item Number</th>
+                <th>Edit</th>
+                <th>Order #</th>
                 <th>Created</th>
                 <th>Server</th>
                 <th>Customer Name</th>
@@ -17,17 +18,20 @@
         </thead>
         <tbody>
             {% for object in object_list %}
-            <tr>
-                <td>{{ object.pk }}</td>
-                <td>{{ object.created }}</td>
-                <td>{{ object.server }}</td>
-                <td>{{ object.customer_name }}</td>
-                <td>{{ object.items }}</td>
-                <td>{{ object.note }}</td>
-                <td>{{ object.is_complete }}</td>
-                <td>{{ object.is_paid }}</td>
-                <td>{{ object.order_total }}</td>
-            </tr>
+
+                <tr>
+                        <td><a href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
+                        <td>{{ object.pk }}</td>
+                        <td>{{ object.created }}</td>
+                        <td>{{ object.server }}</td>
+                        <td>{{ object.customer_name }}</td>
+                        <td>{{ object.items }}</td>
+                        <td>{{ object.note }}</td>
+                        <td>{{ object.is_complete }}</td>
+                        <td>{{ object.is_paid }}</td>
+                        <td>{{ object.order_total }}</td>
+                </tr>
+
             {% endfor %}
         </tbody>
 </table>

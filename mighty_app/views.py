@@ -62,3 +62,7 @@ class MeunItemCreateView(CreateView):
 
 class MenuItemListView(ListView):
     model = MenuItem
+
+class MenuUpdateView(UpdateView):
+    model = MenuItem
+    fields = ['id', 'title', 'description', 'price']

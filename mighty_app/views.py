@@ -28,11 +28,12 @@ class RegisterView(CreateView):
 
 
 class OrderCreateView(CreateView):
-    model = Order
-    fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
+    model = OrderLine
+    fields = ['quantity', 'order_menu_item', 'orderline_menu']
+    # fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
     # form_class = OrderForm
     success_url = reverse_lazy("order_list_view")
-    # template_name = 'mighty_app/order_form.html'
+    template_name = 'mighty_app/order_form.html'
 
 
     def form_valid(self, form):

@@ -44,10 +44,10 @@ class Order(models.Model):
 
     # http://stackoverflow.com/questions/27975251/how-do-i-add-together-fields-from-a-manytomanyfield-in-django
     def order_total(self):
-        return self.order_items.aggregate(total=models.Sum('order_menu_item'))['total']
+        return self.order_items.aggregate(total=models.Sum('price'))['total']
 
     def __str__(self):
-        return self.customer_name
+        return "{}: {}".format(self.pk, self.customer_name)
 
     class Meta:
         ordering = ['-created']

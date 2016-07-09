@@ -1,5 +1,25 @@
 {% extends "base.html" %}
 
 {% block body %}
-    Welcome to the mighty_app
+
+    <h1>Welcome to the mighty_app</h1>
+
+    {% if user.is_authenticated %}
+        {% if user.job %}
+            You have a job
+        {% else %}
+            <form class="" action="{% url 'profile_view' %}" method="post">
+                {% csrf_token %}
+                {{ profile_form.as_p }}
+                <input class="" type="submit" name="update" value="Update">
+            </form>
+        {% endif %}
+    {% else %}
+        <form class="" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <input class="" type="submit" name="login" value="Login">
+        </form>
+    {% endif %}
+
 {% endblock %}

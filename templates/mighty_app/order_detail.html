@@ -10,6 +10,11 @@
     <form class="" action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <table>
+            {% for form in inlines %}
+                <tr>{{ form.as_table }}</tr>
+            {% endfor %}
+        </table>
         <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
     </form>
 {# http://foundation.zurb.com/sites/docs/switch.html #}

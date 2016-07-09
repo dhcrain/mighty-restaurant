@@ -3,4 +3,9 @@
 {% block title %}{{ user }}'s Profile{% endblock %}
 {% block body %}
     <h1>Profile</h1>
+
+    {% for object in object_list %}
+        {{ object }}
+    {% endfor %}
+
 {% endblock %}

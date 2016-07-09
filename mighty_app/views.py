@@ -7,19 +7,38 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 from extra_views.generic import GenericInlineFormSet
+from mighty_app.forms import ProfileForm
 
 
 # Create your views here.
 class IndexView(TemplateView):
     template_name = 'index.html'
 
+    def get_queryset(self):
+        return Order.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated():
+            context["profile"] = Profile.objects.get(user=self.request.user)
+            context["profile_form"] = ProfileForm
+        else:
+            context["login_form"] = AuthenticationForm()
+        return context
+
+
     # add login form
     # if loged in, show if server: add order/owner: menuitem/cook: view orders
 
-class ProfileListView(LoginRequiredMixin, ListView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     template_name = 'profile.html'
-    model = Order
+    # model = Profile
+    fields = ['job']
+    success_url = reverse_lazy("index_view")
 
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
 
 class RegisterView(CreateView):
     model = User
@@ -35,13 +54,12 @@ class OrderLineInline(InlineFormSet):
 
 # https://github.com/AndrewIngram/django-extra-views
 
-class OrderCreateView(CreateWithInlinesView):
+class OrderCreateView(LoginRequiredMixin, CreateWithInlinesView):
     model = Order
     inlines = [OrderLineInline]
     fields = ['customer_name', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_form.html'
     success_url = reverse_lazy("order_list_view")
-
 
     def forms_valid(self, form, inlines):
         """
@@ -55,15 +73,11 @@ class OrderCreateView(CreateWithInlinesView):
         return super().forms_valid(form, inlines)
 
 
-
-class OrderListView(ListView):
+class OrderDetailView(LoginRequiredMixin, UpdateWithInlinesView):
     model = Order
-
-class OrderDetailView(UpdateView):
-    model = Order
-    fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
+    inlines = [OrderLineInline]
+    fields = ['customer_name', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_detail.html'
-    # form_class = OrderForm
     success_url = reverse_lazy("order_list_view")
 
     def get_context_data(self, **kwargs):
@@ -72,7 +86,12 @@ class OrderDetailView(UpdateView):
         context['object'] = Order.objects.get(id=pk)
         return context
 
-class MeunItemCreateView(CreateView):
+
+class OrderListView(LoginRequiredMixin, ListView):
+    model = Order
+
+
+class MeunItemCreateView(LoginRequiredMixin, CreateView):
     model = MenuItem
     fields = ['title', 'description', 'price']
     success_url = reverse_lazy("menu_item_list_view")
@@ -82,10 +101,10 @@ class MeunItemCreateView(CreateView):
         menu_item.created_by = self.request.user
         return super().form_valid(form)
 
-class MenuItemListView(ListView):
+class MenuItemListView(LoginRequiredMixin, ListView):
     model = MenuItem
 
-class MenuUpdateView(UpdateView):
+class MenuUpdateView(LoginRequiredMixin, UpdateView):
     model = MenuItem
     fields = ['id', 'title', 'description', 'price']
     success_url = reverse_lazy("menu_item_list_view")

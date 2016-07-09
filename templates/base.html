@@ -36,7 +36,7 @@
             <ul class="menu">
                 {% if user.is_authenticated %}
                     <li class="menu-text">Welcome {{ user }}</li>
-                    <li><a href="{% url 'profile_list_view' %}">Profile</a></li>
+                    <li><a href="{% url 'profile_view' %}">Profile</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>

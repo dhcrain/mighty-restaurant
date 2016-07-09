@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from mighty_app.views import IndexView, ProfileListView, RegisterView, OrderCreateView, OrderListView, MeunItemCreateView, MenuUpdateView, MenuItemListView, OrderDetailView
+from mighty_app.views import IndexView, ProfileView, RegisterView, OrderCreateView, OrderListView, MeunItemCreateView, MenuUpdateView, MenuItemListView, OrderDetailView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^$', IndexView.as_view(), name='index_view'),
     url(r'^register/$', RegisterView.as_view(), name='register_view'),
-    url(r'^accounts/profile/$', ProfileListView.as_view(), name='profile_list_view'),
+    url(r'^accounts/profile/$', ProfileView.as_view(), name='profile_view'),
     url(r'^order/$', OrderListView.as_view(), name='order_list_view'),
     url(r'^order/add$', OrderCreateView.as_view(), name='order_create_view'),
     url(r'^order/(?P<pk>\d+)$', OrderDetailView.as_view(), name='order_detail_view'),

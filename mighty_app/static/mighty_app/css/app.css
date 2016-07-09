@@ -1,4 +1,7 @@
-
+/*.hero {
+    background-image: url('/static/mighty_app/img/rest_img_hero_web.jpg');
+    height: 150px;
+}*/
 .complete {
     background-color: green;
     color: white;

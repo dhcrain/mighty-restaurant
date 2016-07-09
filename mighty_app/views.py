@@ -5,7 +5,7 @@ from mighty_app.models import Profile, MenuItem, Order, OrderLine
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from mighty_app.forms import OrderForm, OrderLineForm
+from mighty_app.forms import OrderForm
 
 
 # Create your views here.
@@ -19,6 +19,8 @@ class ProfileListView(LoginRequiredMixin, ListView):
     template_name = 'profile.html'
     model = Order
 
+
+
 class RegisterView(CreateView):
     model = User
     form_class = UserCreationForm
@@ -30,6 +32,8 @@ class OrderCreateView(CreateView):
     fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
     # form_class = OrderForm
     success_url = reverse_lazy("order_list_view")
+    # template_name = 'mighty_app/order_form.html'
+
 
     def form_valid(self, form):
         order = form.save(commit=False)

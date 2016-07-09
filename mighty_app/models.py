@@ -33,12 +33,10 @@ class MenuItem(models.Model):
         return self.title
 
 
-
 class Order(models.Model):
     server = models.ForeignKey('auth.User')
-    customer_name = models.CharField(max_length=20)
-    # items = models.ManyToManyField(MenuItem)
-    order_items = models.ManyToManyField(MenuItem, through='OrderLine')
+    customer_name = models.CharField(max_length=20, null=True)
+    order_items = models.ManyToManyField(MenuItem, through='OrderLine', null=True)
     note = models.TextField(blank=True)
     is_complete = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
@@ -48,15 +46,15 @@ class Order(models.Model):
     def order_total(self):
         return self.order_items.aggregate(total=models.Sum('order_menu_item'))['total']
 
-        def __str__(self):
-            return self.customer_name
+    def __str__(self):
+        return self.customer_name
 
-            class Meta:
-                ordering = ['-created']
+    class Meta:
+        ordering = ['-created']
 
 
 class OrderLine(models.Model):
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
     order_menu_item = models.ForeignKey(MenuItem)
     orderline_menu = models.ForeignKey(Order)
 

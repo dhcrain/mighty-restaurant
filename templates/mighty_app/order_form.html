@@ -5,7 +5,40 @@
 <br>
 <form class="form-center" action="" method="post">
     {% csrf_token %}
+    {{ my_formset.management_form }}
     {{ form.as_p }}
+    <table>
+        {% for form in inlines %}
+        <tr>{{ form.as_table }}</tr>
+        {% endfor %}
+    </table>
+
     <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
+</form>
+
+
+
+<br>
+
+
+<form class="" action="" method="post">
+<table>
+    <thead>
+        {% for form in formset %}
+            {% if forloop.first %}
+                {% for field in form %}
+                    <th>{{ field }}</th>
+                {% endfor %}
+            {% endif %}
+    </thead>
+    <tbody>
+            <tr>
+                {% for field in form %}
+                    <td>{{ field }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </form>
 {% endblock %}

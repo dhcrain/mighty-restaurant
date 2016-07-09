@@ -36,7 +36,7 @@ class MenuItem(models.Model):
 class Order(models.Model):
     server = models.ForeignKey('auth.User')
     customer_name = models.CharField(max_length=20, null=True)
-    order_items = models.ManyToManyField(MenuItem, through='OrderLine', null=True)
+    order_items = models.ManyToManyField(MenuItem, through='OrderLine', related_name='line_item', null=True)
     note = models.TextField(blank=True)
     is_complete = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)

@@ -5,7 +5,8 @@ from mighty_app.models import Profile, MenuItem, Order, OrderLine
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from mighty_app.forms import OrderForm
+from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
+from extra_views.generic import GenericInlineFormSet
 
 
 # Create your views here.
@@ -20,26 +21,40 @@ class ProfileListView(LoginRequiredMixin, ListView):
     model = Order
 
 
-
 class RegisterView(CreateView):
     model = User
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
 
 
-class OrderCreateView(CreateView):
+class OrderLineInline(InlineFormSet):
     model = OrderLine
-    fields = ['quantity', 'order_menu_item', 'orderline_menu']
-    # fields = ['customer_name', 'order_items', 'note', 'is_complete', 'is_paid']
-    # form_class = OrderForm
-    success_url = reverse_lazy("order_list_view")
+    extra = 5
+    fields = ['quantity', 'order_menu_item']
+
+
+# https://github.com/AndrewIngram/django-extra-views
+
+class OrderCreateView(CreateWithInlinesView):
+    model = Order
+    inlines = [OrderLineInline]
+    fields = ['customer_name', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_form.html'
+    success_url = reverse_lazy("order_list_view")
 
 
-    def form_valid(self, form):
+    def forms_valid(self, form, inlines):
+        """
+        If the form and formsets are valid, save the associated models.
+        """
         order = form.save(commit=False)
         order.server = self.request.user
-        return super().form_valid(form)
+        self.object = form.save()
+        for formset in inlines:
+            formset.save()
+        return super().forms_valid(form, inlines)
+
+
 
 class OrderListView(ListView):
     model = Order

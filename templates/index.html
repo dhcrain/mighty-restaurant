@@ -62,10 +62,57 @@
     {# if server: cols, new order, unpaid&not complete order list, link to all orders #}
     <div class="row">
         <div class="small-6 columns">
-            
+            <iframe src="{% url 'order_create_view' %}" width="100%" height="1000px"></iframe>
         </div>
         <div class="small-6 columns">
-
+            <h2 class="text-center">Your Unpaid & Not Complete Orders</h2>
+            <a class="button" href="{% url 'order_list_view' %}">View All Orders</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Edit</th>
+                        <th>Order #</th>
+                        <th>Created</th>
+                        <th>Server</th>
+                        <th>Customer Name</th>
+                        <th>Items</th>
+                        <th>Note</th>
+                        <th>Complete</th>
+                        <th>Paid</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in order_list %}
+                        <tr>
+                            <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
+                            <td>{{ object.pk }}</td>
+                            <td>{{ object.created }}</td>
+                            <td>{{ object.server }}</td>
+                            <td>{{ object.customer_name }}</td>
+                            <td>{% for items in object.order_items.all %}
+                                <ul>
+                                    <li>{{ items }}</li>
+                                </ul>
+                            {% empty %}
+                                No Items!
+                            {% endfor %}</td>
+                            <td>{{ object.note }}</td>
+                            {% if object.is_complete %}
+                                <td class="complete" >{{ object.is_complete }}</td>
+                            {% else %}
+                                <td class="not-complete" >{{ object.is_complete }}</td>
+                            {% endif %}
+                            {% if object.is_paid %}
+                                <td class="paid" >{{ object.is_paid }}</td>
+                            {% else %}
+                                <td class="not-paid" >{{ object.is_paid }}</td>
+                            {% endif %}
+                            <td>${{ object.order_total }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {# if cook: list of all not complete orders, linkto edit and mark complete #}

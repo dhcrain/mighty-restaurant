@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 from extra_views.generic import GenericInlineFormSet
 from mighty_app.forms import ProfileForm, MenuItemForm
+from django.db.models import Q
 
 
 # Create your views here.
@@ -21,6 +22,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['menu_item'] = MenuItem.objects.all()
         context['create_menu_item_form'] = MenuItemForm
+        context['order_list'] = Order.objects.filter(server=self.request.user).filter(Q(is_paid=False) | Q(is_complete=False))
         if self.request.user.is_authenticated():
             context["profile"] = Profile.objects.get(user=self.request.user)
             context["profile_form"] = ProfileForm
@@ -48,20 +50,19 @@ class RegisterView(CreateView):
     success_url = reverse_lazy("login")
 
 
+# https://github.com/AndrewIngram/django-extra-views
 class OrderLineInline(InlineFormSet):
     model = OrderLine
     extra = 5
     fields = ['quantity', 'order_menu_item']
 
 
-# https://github.com/AndrewIngram/django-extra-views
-
 class OrderCreateView(LoginRequiredMixin, CreateWithInlinesView):
     model = Order
     inlines = [OrderLineInline]
     fields = ['customer_name', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_form.html'
-    success_url = reverse_lazy("order_list_view")
+    success_url = reverse_lazy("order_create_view")
 
     def forms_valid(self, form, inlines):
         """

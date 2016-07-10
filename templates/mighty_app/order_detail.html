@@ -11,8 +11,13 @@
         <div class="small-5 columns">
             <p><b>Order Date:</b> {{ order.created }}</p>
             <p><b>Order Total: $</b>{{ object.order_total }}</p>
-            <p><b>Customer Name:</b> {{ form.customer_name }}</p>
-            <p><b>Note:</b> {{ form.note }}</p>
+            {% if user.profile.job = 'Cook' %}
+                <p><b>Customer Name: </b>{{ object.customer_name }}</p>
+                <p><b>Note: </b>{{ object.note }}</p>
+            {% else %}
+                <p><b>Customer Name:</b> {{ form.customer_name }}</p>
+                <p><b>Note:</b> {{ form.note }}</p>
+            {% endif %}
             <div class="row">
                 <div class="small-3 columns">
                     <p>Complete?</p>
@@ -27,14 +32,19 @@
                 </div>
                 <div class="small-3 columns">
                     <p>Paid?</p>
-                    <div class="switch large">
-                        {{ form.is_paid|add_class:"switch-input" }}
-                        <label class="switch-paddle" for="id_is_paid">
-                            <span class="show-for-sr">Paid?</span>
-                            <span class="switch-active" aria-hidden="true">Yes</span>
-                            <span class="switch-inactive" aria-hidden="true">No</span>
-                        </label>
-                    </div>
+                    {% if user.profile.job = 'Cook' %}
+                        {{ object.is_paid }}
+                    {% else %}
+                        <div class="switch large">
+                            {{ form.is_paid|add_class:"switch-input" }}
+                            <label class="switch-paddle" for="id_is_paid">
+                                <span class="show-for-sr">Paid?</span>
+                                <span class="switch-active" aria-hidden="true">Yes</span>
+                                <span class="switch-inactive" aria-hidden="true">No</span>
+                            </label>
+                        </div>
+
+                    {% endif %}
                 </div>
             </div>
             <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
@@ -48,5 +58,6 @@
             </table>
         </div>
     </form>
+
     </div>
 {% endblock %}

@@ -116,6 +116,16 @@
         </div>
     </div>
     {# if cook: list of all not complete orders, linkto edit and mark complete #}
-
+    <div class="row">
+        <div class="small-12 columns">
+            <div class="switch">
+                {{ order_simple_form.is_complete }}
+                <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch">
+                <label class="switch-paddle" for="exampleSwitch">
+                    <span class="show-for-sr">Download Kittens</span>
+                </label>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

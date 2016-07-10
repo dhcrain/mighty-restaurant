@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 from extra_views.generic import GenericInlineFormSet
-from mighty_app.forms import ProfileForm, MenuItemForm
+from mighty_app.forms import ProfileForm, MenuItemForm, OrderSimpleForm
 from django.db.models import Q
 
 
@@ -23,6 +23,7 @@ class IndexView(TemplateView):
         context['menu_item'] = MenuItem.objects.all()
         context['create_menu_item_form'] = MenuItemForm
         context['order_list'] = Order.objects.filter(server=self.request.user).filter(Q(is_paid=False) | Q(is_complete=False))
+        context['order_simple_form'] = OrderSimpleForm
         if self.request.user.is_authenticated():
             context["profile"] = Profile.objects.get(user=self.request.user)
             context["profile_form"] = ProfileForm

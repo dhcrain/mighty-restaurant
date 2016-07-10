@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
 
 {% block body %}
 
@@ -71,10 +70,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Edit</th>
+                        <th></th>
                         <th>Order #</th>
                         <th>Created</th>
-                        <th>Server</th>
                         <th>Customer Name</th>
                         <th>Items</th>
                         <th>Note</th>
@@ -88,8 +86,7 @@
                         <tr>
                             <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
                             <td>{{ object.pk }}</td>
-                            <td>{{ object.created }}</td>
-                            <td>{{ object.server }}</td>
+                            <td>{{ object.created|time:"P" }}</td>
                             <td>{{ object.customer_name }}</td>
                             <td>{% for items in object.order_items.all %}
                                 <ul>
@@ -119,11 +116,13 @@
     {# if cook: list of all not complete orders, linkto edit and mark complete #}
     <div class="row">
         <div class="small-12 columns">
-            <div class="switch">
+            <p>Complete?</p>
+            <div class="switch large">
                 {{ order_simple_form.is_complete|add_class:"switch-input" }}
-                {# <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch">#}
                 <label class="switch-paddle" for="id_is_complete">
-                    <span class="show-for-sr">Download Kittens</span>
+                    <span class="show-for-sr">Complete?</span>
+                    <span class="switch-active" aria-hidden="true">Yes</span>
+                    <span class="switch-inactive" aria-hidden="true">No</span>
                 </label>
             </div>
         </div>

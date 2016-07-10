@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block body %}
 
@@ -119,9 +120,9 @@
     <div class="row">
         <div class="small-12 columns">
             <div class="switch">
-                {{ order_simple_form.is_complete }}
-                <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch">
-                <label class="switch-paddle" for="exampleSwitch">
+                {{ order_simple_form.is_complete|add_class:"switch-input" }}
+                {# <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch">#}
+                <label class="switch-paddle" for="id_is_complete">
                     <span class="show-for-sr">Download Kittens</span>
                 </label>
             </div>

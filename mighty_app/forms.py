@@ -17,6 +17,6 @@ class OrderSimpleForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        is_complete = forms.CheckboxInput(attrs={'class':'switch-control'})
-        is_paid = forms.CheckboxInput(attrs={'class':'switch-control'})
+        # is_complete = forms.CheckboxInput(attrs={'class':'switch-control'})
+        # is_paid = forms.CheckboxInput(attrs={'class':'switch-control'})
         fields = ['is_complete', 'is_paid']

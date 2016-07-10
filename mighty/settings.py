@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mighty_app',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE_CLASSES = [

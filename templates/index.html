@@ -5,8 +5,8 @@
     <h1>Welcome to the mighty_app</h1>
 
     {% if user.is_authenticated %}
-        {% if user.job %}
-            You have a job
+        {% if user.profile.job %}
+            <p>Welcome, Your role is {{ user.profile.job }}, if this is not correct, contact THE CREATOR</p>
         {% else %}
             <form class="" action="{% url 'profile_view' %}" method="post">
                 {% csrf_token %}
@@ -21,5 +21,54 @@
             <input class="" type="submit" name="login" value="Login">
         </form>
     {% endif %}
+
+    {# if owner: menu list view with edit button, link to add menu items #}
+    <div class="row">
+        <div class="small-6 columns">
+            <h2 class="text-center">Add Menu Items</h2>
+            <form class="form-center" action="{% url 'menu_item_create_view' %}" method="post">
+                {% csrf_token %}
+                {{ create_menu_item_form.as_p }}
+                <input class="expanded button" type="submit" name="add_item" value="Add Item">
+            </form>
+        </div>
+        <div class="small-6 columns">
+            <h2 class="text-center">Menu</h2>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Item Number</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in menu_item %}
+                    <tr>
+                        <th><a class="large button" href="{% url 'menu_item_update_view' item.pk %}">Edit</a></th>
+                        <td>{{ item.pk }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {# if server: cols, new order, unpaid&not complete order list, link to all orders #}
+    <div class="row">
+        <div class="small-6 columns">
+            
+        </div>
+        <div class="small-6 columns">
+
+        </div>
+    </div>
+    {# if cook: list of all not complete orders, linkto edit and mark complete #}
+
 
 {% endblock %}

@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 from extra_views.generic import GenericInlineFormSet
-from mighty_app.forms import ProfileForm
+from mighty_app.forms import ProfileForm, MenuItemForm
 
 
 # Create your views here.
@@ -19,6 +19,8 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['menu_item'] = MenuItem.objects.all()
+        context['create_menu_item_form'] = MenuItemForm
         if self.request.user.is_authenticated():
             context["profile"] = Profile.objects.get(user=self.request.user)
             context["profile_form"] = ProfileForm
@@ -94,7 +96,7 @@ class OrderListView(LoginRequiredMixin, ListView):
 class MeunItemCreateView(LoginRequiredMixin, CreateView):
     model = MenuItem
     fields = ['title', 'description', 'price']
-    success_url = reverse_lazy("menu_item_list_view")
+    success_url = reverse_lazy("index_view")
 
     def form_valid(self, form):
         menu_item = form.save(commit=False)
@@ -107,4 +109,4 @@ class MenuItemListView(LoginRequiredMixin, ListView):
 class MenuUpdateView(LoginRequiredMixin, UpdateView):
     model = MenuItem
     fields = ['id', 'title', 'description', 'price']
-    success_url = reverse_lazy("menu_item_list_view")
+    success_url = reverse_lazy("index_view")

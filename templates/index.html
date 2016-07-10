@@ -23,6 +23,7 @@
     {% endif %}
 
     {# if owner: menu list view with edit button, link to add menu items #}
+    {% if user.profile.job = 'Owner' %}
     <div class="row">
         <div class="small-6 columns">
             <h2 class="text-center">Add Menu Items</h2>
@@ -59,7 +60,9 @@
             </table>
         </div>
     </div>
+    {% endif %}
     {# if server: cols, new order, unpaid&not complete order list, link to all orders #}
+    {% if user.profile.job = 'Server' %}
     <div class="row">
         <div class="small-6 columns">
             <iframe src="{% url 'order_create_view' %}" width="100%" height="1000px"></iframe>
@@ -113,19 +116,14 @@
             </table>
         </div>
     </div>
+    {% endif %}
     {# if cook: list of all not complete orders, linkto edit and mark complete #}
-    <div class="row">
-        <div class="small-12 columns">
-            <p>Complete?</p>
-            <div class="switch large">
-                {{ order_simple_form.is_complete|add_class:"switch-input" }}
-                <label class="switch-paddle" for="id_is_complete">
-                    <span class="show-for-sr">Complete?</span>
-                    <span class="switch-active" aria-hidden="true">Yes</span>
-                    <span class="switch-inactive" aria-hidden="true">No</span>
-                </label>
+    {% if user.profile.job = 'Cook' %}
+        <div class="row">
+            <div class="small-12 columns">
+                cook
             </div>
         </div>
-    </div>
+    {% endif %}
 
 {% endblock %}

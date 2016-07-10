@@ -5,22 +5,11 @@
 <h1>Create Order</h1>
 <br>
 
-<form class="form-center" action="" method="post">
-    {% csrf_token %}
-    {{ my_formset.management_form }}
-    {{ form.as_p }}
-    <table>
-        {% for form in inlines %}
-            <tr>{{ form.as_table }}</tr>
-        {% endfor %}
-    </table>
-    <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
-</form>
 <div class="row">
     <form class="" action="" method="post">
         {% csrf_token %}
         {{ formset.management_form }}
-    <div class="small-5 columns">
+    <div class="medium-5 columns">
         <p><b>Customer Name:</b> {{ form.customer_name }}</p>
         <p><b>Note:</b> {{ form.note }}</p>
         <div class="row">
@@ -49,7 +38,7 @@
             <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
         </div>
     </div>
-    <div class="small-7 columns">
+    <div class="medium-7 columns">
         <h4>Order Line Items:</h4>
         <table>
             {% for form in inlines %}

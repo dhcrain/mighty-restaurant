@@ -20,11 +20,11 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu_item'] = MenuItem.objects.all()
-        context['create_menu_item_form'] = MenuItemForm
-        context['order_list'] = Order.objects.filter(server=self.request.user).filter(Q(is_paid=False) | Q(is_complete=False))
-        context['order_simple_form'] = OrderSimpleForm
         if self.request.user.is_authenticated():
+            context['menu_item'] = MenuItem.objects.all()
+            context['create_menu_item_form'] = MenuItemForm
+            context['order_list'] = Order.objects.filter(server=self.request.user).filter(Q(is_paid=False) | Q(is_complete=False))
+            context['order_simple_form'] = OrderSimpleForm
             context["profile"] = Profile.objects.get(user=self.request.user)
             context["profile_form"] = ProfileForm
         else:

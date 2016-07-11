@@ -50,11 +50,11 @@ class Order(models.Model):
         return "{}: {}".format(self.pk, self.customer_name)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
 
 
 class OrderLine(models.Model):
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=0)
     order_menu_item = models.ForeignKey(MenuItem)
     orderline_menu = models.ForeignKey(Order)
 

@@ -4,30 +4,23 @@
 
 {% block body %}
     <h1>Order Detail</h1>
+    <h1><b>Order Total:</b> ${{ total }}</h1>
     {% if user.profile.job = "Cook" %}
         <h2>Please go <a href="{% url 'cook_order_detail_view' pk %}"><b>Here</b></a></h2>
     {% else %}
 
     <div class="row">
-        <form class="" action="" method="post">
+        <form id="OrderForm" class="" action="" method="post">
             {% csrf_token %}
             {{ formset.management_form }}
         <div class="small-5 columns">
             <p><b>Order Date:</b> {{ order.created }}</p>
-            <p><b>Order Total: $</b>{{ object.order_total }}</p>
             <p><b>Customer Name:</b> {{ form.customer_name }}</p>
             <p><b>Note:</b> {{ form.note }}</p>
             <div class="row">
                 <div class="small-3 columns">
                     <p>Complete?</p>
-                    <div class="switch large">
-                        {{ form.is_complete|add_class:"switch-input" }}
-                        <label class="switch-paddle" for="id_is_complete">
-                            <span class="show-for-sr">Complete?</span>
-                            <span class="switch-active" aria-hidden="true">Yes</span>
-                            <span class="switch-inactive" aria-hidden="true">No</span>
-                        </label>
-                    </div>
+                    {{ object.is_complete }}
                 </div>
                 <div class="small-3 columns">
                     <p>Paid?</p>

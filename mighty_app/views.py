@@ -68,7 +68,7 @@ class OrderCreateView(LoginRequiredMixin, CreateWithInlinesView):
     inlines = [OrderLineInline]
     fields = ['customer_name', 'note', 'is_complete', 'is_paid']
     template_name = 'mighty_app/order_form.html'
-    success_url = reverse_lazy("order_create_view")
+    success_url = reverse_lazy("index_view")
 
     def forms_valid(self, form, inlines):
         """
@@ -93,6 +93,11 @@ class OrderDetailView(LoginRequiredMixin, UpdateWithInlinesView):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get('pk')
         context['object'] = Order.objects.get(id=pk)
+        order_line_obj = OrderLine.objects.filter(orderline_menu=pk)
+        total = 0
+        for item in order_line_obj:
+            total += (item.quantity * item.order_menu_item.price)
+        context['total'] = total
         return context
 
 

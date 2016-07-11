@@ -6,7 +6,7 @@
 
     {% if user.is_authenticated %}
         {% if user.profile.job %}
-            <p>Welcome, Your role is {{ user.profile.job }}, if this is not correct, contact THE CREATOR</p>
+            <p>Welcome, Your role is {{ user.profile.job }}, if this is not correct, contact THE CREATOR....</p>
         {% else %}
             <form class="" action="{% url 'profile_view' %}" method="post">
                 {% csrf_token %}
@@ -69,11 +69,10 @@
     {# if server: cols, new order, unpaid&not complete order list, link to all orders #}
     {% if user.profile.job = 'Server' %}
     <div class="row">
-        <div class="small-6 columns">
-            <iframe src="{% url 'order_create_view' %}" width="100%" height="1000px"></iframe>
+        <div class="small-2 columns">
+            <a class="button success large" href="{% url 'order_create_view' %}"><b>New Order</b></a>
         </div>
-        <div class="small-6 columns">
-            <h2 class="text-center">Your Unpaid & Complete Orders</h2>
+        <div class="small-10 columns">
             <a class="button expanded" href="{% url 'order_list_view' %}">View All Orders</a>
             <table>
                 <thead>
@@ -90,8 +89,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>
+                            <h3>Unpaid Orders</h3>
+                        </td>
+                    </tr>
                     {% for object in order_list %}
-                    {% if object.is_complete and not object.is_paid %}
+                    {% if not object.is_paid %}
                         <tr>
                             <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
                             <td>{{ object.pk }}</td>

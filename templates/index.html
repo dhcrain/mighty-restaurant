@@ -77,6 +77,9 @@
             <table>
                 <thead>
                     <tr>
+                        <td colspan="9"><h3>Your Unpaid Orders</h3></td>
+                    </tr>
+                    <tr>
                         <th></th>
                         <th>Order #</th>
                         <th>Created</th>
@@ -85,19 +88,13 @@
                         <th>Note</th>
                         <th>Complete</th>
                         <th>Paid</th>
-                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <h3>Unpaid Orders</h3>
-                        </td>
-                    </tr>
                     {% for object in order_list %}
                     {% if not object.is_paid %}
                         <tr>
-                            <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
+                            <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Details/Edit</a></td>
                             <td>{{ object.pk }}</td>
                             <td>{{ object.created|time:"P" }}</td>
                             <td>{{ object.customer_name }}</td>
@@ -119,7 +116,6 @@
                             {% else %}
                                 <td class="not-paid" >{{ object.is_paid }}</td>
                             {% endif %}
-                            <td>${{ object.order_total }}</td>
                         </tr>
                         {% endif %}
                     {% endfor %}
@@ -136,6 +132,9 @@
                 <table>
                     <thead>
                         <tr>
+                            <td colspan="8"><h3>Orders to be Completed</h3></td>
+                        </tr>
+                        <tr>
                             <th></th>
                             <th>Order #</th>
                             <th>Created</th>
@@ -144,7 +143,6 @@
                             <th>Note</th>
                             <th>Complete</th>
                             <th>Paid</th>
-                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,7 +171,6 @@
                         {% else %}
                             <td class="not-paid" >{{ object.is_paid }}</td>
                         {% endif %}
-                        {# <td>${{ object.order_total }}</td>#}
                     </tr>
                     {% endif %}
                 {% endfor %}

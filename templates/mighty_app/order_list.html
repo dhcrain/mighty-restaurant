@@ -13,7 +13,6 @@
                 <th>Note</th>
                 <th>Complete</th>
                 <th>Paid</th>
-                <th>Total</th>
             </tr>
         </thead>
         <tbody>
@@ -46,7 +45,6 @@
                     {% else %}
                         <td class="not-paid" >{{ object.is_paid }}</td>
                     {% endif %}
-                    <td>${{ object.order_total }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+
+{% block body %}
+    <h1>Order Detail</h1>
+    <div class="row">
+        <form class="" action="" method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+        <div class="small-5 columns">
+
+            <p><b>Order Date:</b> {{ order.created }}</p>
+            <p><b>Order Total:</b> $ {{ total }}</p>
+            {% if user.profile.job == 'Cook' %}
+                <p><b>Customer Name: </b>{{ order.customer_name }}</p>
+                <p><b>Note: </b>{{ order.note }}</p>
+            {% else %}
+                <p><b>Customer Name:</b> {{ form.customer_name }}</p>
+                <p><b>Note:</b> {{ form.note }}</p>
+            {% endif %}
+            <div class="row">
+                <div class="small-3 columns">
+                    <p>Complete?</p>
+                    <div class="switch large">
+                        {{ form.is_complete|add_class:"switch-input" }}
+                        <label class="switch-paddle" for="id_is_complete">
+                            <span class="show-for-sr">Complete?</span>
+                            <span class="switch-active" aria-hidden="true">Yes</span>
+                            <span class="switch-inactive" aria-hidden="true">No</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="small-3 columns">
+                    <p>Paid?</p>
+                    {% if user.profile.job == 'Cook' %}
+                        {{ order.is_paid }}
+                    {% else %}
+                        <div class="switch large">
+                            {{ form.is_paid|add_class:"switch-input" }}
+                            <label class="switch-paddle" for="id_is_paid">
+                                <span class="show-for-sr">Paid?</span>
+                                <span class="switch-active" aria-hidden="true">Yes</span>
+                                <span class="switch-inactive" aria-hidden="true">No</span>
+                            </label>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <input class="expanded button" type="submit" name="submit_order" value="Submit Order">
+            </div>
+        <div class="small-7 columns">
+            <h4>Order Line Items:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Qty</td>
+                        <td>Menu Item</td>
+                        <td>Price</td>
+                    </tr>
+                </thead>
+                {% for line in object %}
+                <tr>
+                    <td>{{ line.quantity }}</td>
+                    <td>{{ line.order_menu_item.title }}</td>
+                    <td>$ {{ line.order_menu_item.price }}</td>
+                </tr>
+                {% endfor %}
+
+
+            </table>
+        </div>
+    </form>
+
+    </div>
+{% endblock %}

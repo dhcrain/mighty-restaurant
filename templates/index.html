@@ -147,7 +147,7 @@
                 {% for object in cook_list %}
                 {% if not object.is_complete %}
                     <tr>
-                        <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Detail/Edit</a></td>
+                        <td><a class="large button" href="{% url 'cook_order_detail_view' object.pk %}">Detail/Edit</a></td>
                         <td>{{ object.pk }}</td>
                         <td>{{ object.created|time:"P" }}</td>
                         <td>{{ object.customer_name }}</td>
@@ -169,7 +169,7 @@
                         {% else %}
                             <td class="not-paid" >{{ object.is_paid }}</td>
                         {% endif %}
-                        <td>${{ object.order_total }}</td>
+                        {# <td>${{ object.order_total }}</td>#}
                     </tr>
                     {% endif %}
                 {% endfor %}

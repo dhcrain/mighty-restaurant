@@ -4,7 +4,7 @@
     <table>
         <thead>
             <tr>
-                <th>Edit</th>
+                <th></th>
                 <th>Order #</th>
                 <th>Created</th>
                 <th>Server</th>
@@ -19,7 +19,11 @@
         <tbody>
             {% for object in object_list %}
                 <tr>
-                    <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
+                    {% if user.profile.job = "Cook" %}
+                        <td><a class="large button" href="{% url 'cook_order_detail_view' object.pk %}">Edit</a></td>
+                    {% else %}
+                        <td><a class="large button" href="{% url 'order_detail_view' object.pk %}">Edit</a></td>
+                    {% endif %}
                     <td>{{ object.pk }}</td>
                     <td>{{ object.created }}</td>
                     <td>{{ object.server }}</td>

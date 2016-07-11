@@ -8,7 +8,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 from extra_views.generic import GenericInlineFormSet
 from mighty_app.forms import ProfileForm, MenuItemForm, OrderSimpleForm
-from django.db.models import Q
+# from django.db.models import Q
+# from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+
+
 
 
 # Create your views here.
@@ -90,6 +94,25 @@ class OrderDetailView(LoginRequiredMixin, UpdateWithInlinesView):
         pk = self.kwargs.get('pk')
         context['object'] = Order.objects.get(id=pk)
         return context
+
+
+class CookOrderUpdateView(LoginRequiredMixin, UpdateView):
+    model = Order
+    fields = ['is_complete']
+    template_name = 'mighty_app/order_detail_cook.html'
+    success_url = reverse_lazy("index_view")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        order_line_obj = OrderLine.objects.filter(orderline_menu=pk)
+        context['object'] = order_line_obj
+        total = 0
+        for item in order_line_obj:
+            total += (item.quantity * item.order_menu_item.price)
+        context['total'] = total
+        return context
+
 
 
 class OrderListView(LoginRequiredMixin, ListView):

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from mighty_app.views import IndexView, ProfileView, RegisterView, OrderCreateView, OrderListView, MeunItemCreateView, MenuUpdateView, MenuItemListView, OrderDetailView
+from mighty_app.views import IndexView, ProfileView, RegisterView, CookOrderUpdateView, OrderCreateView, OrderListView, MeunItemCreateView, MenuUpdateView, MenuItemListView, OrderDetailView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^accounts/profile/$', ProfileView.as_view(), name='profile_view'),
     url(r'^order/$', OrderListView.as_view(), name='order_list_view'),
     url(r'^order/add$', OrderCreateView.as_view(), name='order_create_view'),
-    url(r'^order/(?P<pk>\d+)$', OrderDetailView.as_view(), name='order_detail_view'),
+    url(r'^order/(?P<pk>\d+)/$', OrderDetailView.as_view(), name='order_detail_view'),
+    url(r'^order/(?P<pk>\d+)/cook/$', CookOrderUpdateView.as_view(), name='cook_order_detail_view'),
     url(r'^menu/$', MenuItemListView.as_view(), name='menu_item_list_view'),
     url(r'^menu/add/$', MeunItemCreateView.as_view(), name='menu_item_create_view'),
     url(r'^menu/(?P<pk>\d+)$', MenuUpdateView.as_view(), name='menu_item_update_view'),

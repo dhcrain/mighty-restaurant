@@ -8,11 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 from extra_views.generic import GenericInlineFormSet
 from mighty_app.forms import ProfileForm, MenuItemForm, OrderSimpleForm
-# from django.db.models import Q
-# from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
-
-
 
 
 # Create your views here.

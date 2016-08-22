@@ -29,6 +29,6 @@ urlpatterns = [
     url(r'^order/(?P<pk>\d+)/cook/$', CookOrderUpdateView.as_view(), name='cook_order_detail_view'),
     url(r'^menu/$', MenuItemListView.as_view(), name='menu_item_list_view'),
     url(r'^menu/add/$', MeunItemCreateView.as_view(), name='menu_item_create_view'),
-    url(r'^menu/(?P<pk>\d+)$', MenuUpdateView.as_view(), name='menu_item_update_view'),
+    url(r'^menu/(?P<pk>\d+)/$', MenuUpdateView.as_view(), name='menu_item_update_view'),
 
 ]

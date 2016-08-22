@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your models here.
 
+
 class Profile(models.Model):
     COOK = 'Cook'
     SERVER = 'Server'
@@ -22,6 +23,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
 
 class MenuItem(models.Model):
     created_by = models.ForeignKey('auth.User')
@@ -60,7 +62,6 @@ class OrderLine(models.Model):
 
     def __str__(self):
         return "{}- {}".format(self.quantity, self.order_menu_item)
-
 
 
 @receiver(post_save, sender='auth.User')

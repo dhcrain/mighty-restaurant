@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.models import User
 from mighty_app.models import Profile, MenuItem, Order, OrderLine
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
-from extra_views.generic import GenericInlineFormSet
 from mighty_app.forms import ProfileForm, MenuItemForm, OrderSimpleForm
-from django.http import HttpResponseRedirect
 
 
 # Create your views here.
@@ -32,9 +29,9 @@ class IndexView(TemplateView):
             context["login_form"] = AuthenticationForm()
         return context
 
-
     # add login form
     # if loged in, show if server: add order/owner: menuitem/cook: view orders
+
 
 class ProfileView(LoginRequiredMixin, UpdateView):
     template_name = 'profile.html'
@@ -42,9 +39,9 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     fields = ['job']
     success_url = reverse_lazy("index_view")
 
-
     def get_object(self, queryset=None):
         return self.request.user.profile
+
 
 class RegisterView(CreateView):
     model = User
@@ -115,7 +112,6 @@ class CookOrderUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-
 class OrderListView(LoginRequiredMixin, ListView):
     model = Order
 
@@ -130,8 +126,10 @@ class MeunItemCreateView(LoginRequiredMixin, CreateView):
         menu_item.created_by = self.request.user
         return super().form_valid(form)
 
+
 class MenuItemListView(LoginRequiredMixin, ListView):
     model = MenuItem
+
 
 class MenuUpdateView(LoginRequiredMixin, UpdateView):
     model = MenuItem
